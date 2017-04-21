@@ -4,7 +4,8 @@
 
 void deletespace(char *);                    
 float value(char *);                             
-float plusminus(char *, int *);                 
+float plusminus(char *, int *); 
+float muldiv(char *, int *);                
 float number(char *, int *);               
                                                                                  
 int main(int argc, char *argv[])                    
@@ -39,22 +40,51 @@ float value(char *arr)
 
 float plusminus(char *arr, int *index)
 {                                 
-    float val = number(arr, index);
+    float val = muldiv(arr, index);
         
     while (*(arr + *index) == '+' || *(arr + *index) == '-') {                                          
         switch (*(arr + *index)) {       
             case '+':
                 ++*index;          
-                val += number(arr, index);
+                val += muldiv(arr, index);
                 break;
             case '-':
                 ++*index;           
-                val -= number(arr, index);
+                val -= muldiv(arr, index);
                 break;                                                    
         }
     }
     return val;
 }
+
+float muldiv(char *arr, int *index)                        //multiplication - '/' division - '*'
+{    
+    float div;      
+    float val = number(arr, index);   
+     
+    while (*(arr + *index) == '*' || *(arr + *index) == '/') {                                  
+        switch (*(arr + *index)) {      
+            case '\0':                  
+                return val;
+            case '*':
+                ++*index;
+                val *= number(arr, index);
+                break;
+            case '/':
+                ++*index;
+                div = number(arr, index);
+                if (div != 0) {                                     //проверка на делениние на 0
+                    val /= div;
+                }
+                else {                                            
+                    printf("Division by zero is not defined\n");          
+                    exit(-1);
+                }
+                break;
+       }
+   }
+    return val;
+} 
 
 float number(char *arr, int *index)               //обработка строки
 {     
