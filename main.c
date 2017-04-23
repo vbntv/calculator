@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <math.h>
 
 void deletespace(char *);                    
 float value(char *);                             
 float plusminus(char *, int *); 
-float muldiv(char *, int *);                
+float muldiv(char *, int *);
+float power(char *, int *);                 
 float number(char *, int *);               
                                                                                  
 int main(int argc, char *argv[])                    
@@ -60,7 +62,7 @@ float plusminus(char *arr, int *index)
 float muldiv(char *arr, int *index)                        //multiplication - '/' division - '*'
 {    
     float div;      
-    float val = number(arr, index);   
+    float val = power(arr, index);   
      
     while (*(arr + *index) == '*' || *(arr + *index) == '/') {                                  
         switch (*(arr + *index)) {      
@@ -68,11 +70,11 @@ float muldiv(char *arr, int *index)                        //multiplication - '/
                 return val;
             case '*':
                 ++*index;
-                val *= number(arr, index);
+                val *= power(arr, index);
                 break;
             case '/':
                 ++*index;
-                div = number(arr, index);
+                div = power(arr, index);
                 if (div != 0) {                                     //проверка на делениние на 0
                     val /= div;
                 }
@@ -85,6 +87,23 @@ float muldiv(char *arr, int *index)                        //multiplication - '/
    }
     return val;
 } 
+                 
+float power(char *arr, int *index)                
+{                  
+    float val = number(arr, index);
+        
+    while (*(arr + *index) == '^') {   
+        switch (*(arr + *index)) {
+            case '\0':                  
+                return val;
+            case '^':
+                ++*index;                  
+                val = pow(val, number(arr, index));                   //возведение в степень
+                break;        
+        }
+    }
+    return val;      
+}
 
 float number(char *arr, int *index)               //обработка строки
 {     
