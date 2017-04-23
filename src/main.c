@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "calc.h"
+#include "calc.h" 
                                                                                    
 int main(int argc, char *argv[])                    
 {         
@@ -10,8 +10,7 @@ int main(int argc, char *argv[])
         exit(-1);
     }
     deletespace(argv[1]);
+    checkbrackets(argv[1]);
     printf("%g\n", value(argv[1]));
     return 0;
 }
-
-
