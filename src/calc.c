@@ -4,6 +4,35 @@
 #include <math.h>
 #include "calc.h"
 
+void deletespace(char *arr)
+{
+    int i = 0, j = 0;
+    
+    while ((*(arr+i) = *(arr + j++)) != '\0') 
+        if (*(arr+i) != ' ')
+            i++;                   
+    return;
+}
+
+void check_brackets(char *arr)
+{
+    int open = 0, close = 0;
+    
+    while (*arr) {
+        if (*arr == '(') {
+            open++;
+        } else if(*arr == ')') {
+            close++;
+        }
+        ++arr;
+    }
+    if (open > close || close > open) {
+        printf("Brackets unbalanced!\n");
+        exit(-1);
+    }
+        
+}
+
 float value(char *arr)
 {
     int index = 0;
@@ -74,6 +103,21 @@ float power(char *arr, int *index)
         }
     }
     return val;      
+}
+
+float priority(char *arr, int *index)        
+{
+    float val;    
+    
+    if (*(arr + *index) == '(') {                       //ищет открывающую скобку
+        ++*index;
+        val = plusminus(arr, index);
+        ++*index;                 
+    }
+    else
+        val = number(arr, index);    
+        
+    return val;
 }
 
 float number(char *arr, int *index)               //обработка строки
