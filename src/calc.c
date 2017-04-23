@@ -6,7 +6,7 @@
  
 void deletespace(char *arr)
 {
-    int i = 0, j = 0;
+    unsigned short i = 0, j = 0;
     
     while ((*(arr+i) = *(arr + j++)) != '\0') 
         if (*(arr+i) != ' ')
@@ -16,7 +16,7 @@ void deletespace(char *arr)
 
 void checkbrackets(char *arr)
 {
-    int open = 0, close = 0;
+    unsigned short open = 0, close = 0;
     
     while (*arr) {
         if (*arr == '(') {
@@ -26,7 +26,7 @@ void checkbrackets(char *arr)
         }
         ++arr;
     }
-    if (close != open) {
+    if (open > close || close > open) {
         printf("Brackets unbalanced!\n");
         exit(-1);
     }
@@ -35,12 +35,12 @@ void checkbrackets(char *arr)
 
 float value(char *arr)
 {
-    int index = 0;
+    unsigned short index = 0;
  
     return plusminus(arr, &index);
 }
  
-float plusminus(char *arr, int *index)
+float plusminus(char *arr, unsigned short *index)
 {                                 
     float val = muldiv(arr, index);
         
@@ -61,7 +61,7 @@ float plusminus(char *arr, int *index)
     return val;
 }
  
-float muldiv(char *arr, int *index)                        //multiplication - '/' division - '*'
+float muldiv(char *arr, unsigned short *index)                        //multiplication - '/' division - '*'
 {    
     float div;      
     float val = power(arr, index);   
@@ -90,7 +90,7 @@ float muldiv(char *arr, int *index)                        //multiplication - '/
     return val;
 } 
                  
-float power(char *arr, int *index)                
+float power(char *arr, unsigned short *index)                
 {                  
     float val = priority(arr, index);
         
@@ -107,10 +107,10 @@ float power(char *arr, int *index)
     return val;      
 }
 
-float priority(char *arr, int *index)        
+float priority(char *arr, unsigned short *index)        
 {
     float val;    
-    int flag = 1; 
+    short flag = 1; 
    
     while (*(arr + *index) == '-') {                    //проверка на отрицательный префикс (-1)    
         flag *= -1;
@@ -128,7 +128,7 @@ float priority(char *arr, int *index)
     return val * flag;
 }
  
-float number(char *arr, int *index)                     //обработка строки
+float number(char *arr, unsigned short *index)                     //обработка строки
 {     
     float val = 0; 
     float factor = 1;
@@ -154,4 +154,4 @@ float number(char *arr, int *index)                     //обработка с�
         val = val + (*(arr + *index) - '0') * factor;
     }
     return val;
-}        
+}    
