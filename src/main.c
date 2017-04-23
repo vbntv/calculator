@@ -14,13 +14,4 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void deletespace(char *arr)
-{
-    int i = 0, j = 0;
-    
-    while ((*(arr+i) = *(arr + j++)) != '\0') 
-        if (*(arr+i) != ' ')
-            i++;                   
-    return;
-}
 
