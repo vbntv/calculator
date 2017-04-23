@@ -108,6 +108,12 @@ float power(char *arr, int *index)
 float priority(char *arr, int *index)        
 {
     float val;    
+    int flag = 1; 
+   
+    while (*(arr + *index) == '-') {                    //проверка на отрицательный префикс (-1)    
+        flag *= -1;
+        ++*index; 
+    } 
     
     if (*(arr + *index) == '(') {                       //ищет открывающую скобку
         ++*index;
@@ -117,7 +123,7 @@ float priority(char *arr, int *index)
     else
         val = number(arr, index);    
         
-    return val;
+    return val * flag;
 }
 
 float number(char *arr, int *index)               //обработка строки
