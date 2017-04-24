@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>                                 
-#include <ctype.h>
 #include "calc.h"
  
 void deletespace(char *arr)
@@ -128,29 +127,33 @@ float priority(char *arr, unsigned short *index)
     return val * flag;
 }
  
-float number(char *arr, unsigned short *index)               //обработка строки
+float number(char *arr, unsigned short *index)                     //обработка строки
 {     
     float val = 0; 
-    float factor = 1; 
+    float factor = 1;
 
-    while (isalpha(*(arr + *index))) {                      //проверка на буквы
+
+    while (*(arr + *index) >= 'a' && *(arr + *index) <= 'z') {                             //проверка на буквы
        printf("Incorrect input\n");
        exit(-1);
     }                                 
-    while (isdigit(*(arr + *index))) {                      //символы в число
+    while (*(arr + *index) >= '0' && *(arr + *index) <= '9') {    //символы в число
         val = 10 * val + (*(arr + *index) - '0');
         ++*index;              
     }
-    if (*(arr + *index) == ',') {                           //проверка на запятую
+    if (*(arr + *index) == ',') {                                 //проверка на запятую
         printf("Introduced \",\" but expected \".\"\n");
         exit(-1);
     }                               
-    if (*(arr + *index) != '.') {                           //проверка на десятичную точку
-        return val;
-    }              
-    while (isdigit(*(arr + (++*index)))) {                  //десятичная часть
-        factor *= 0.1;
-        val = val + (*(arr + *index) - '0') * factor;
+    if ( *(arr + *index) == '.') {                           //проверка на десятичную точку
+        ++*index;
+                  
+        while (*(arr + *index) >= '0' && *(arr + *index) <= '9') {     //десятичная часть
+            factor *= 0.1;
+            val = val + (*(arr + *index) - '0') * factor;
+            ++*index;
+            
+        }
     }
     return val;
 }
