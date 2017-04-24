@@ -128,30 +128,29 @@ float priority(char *arr, unsigned short *index)
     return val * flag;
 }
  
-float number(char *arr, unsigned short *index)                     //обработка строки
+float number(char *arr, unsigned short *index)               //обработка строки
 {     
     float val = 0; 
-    float factor = 1;
+    float factor = 1; 
 
-
-    while (*(arr + *index) >= 'a' && *(arr + *index) <= 'z') {                             //проверка на буквы
+    while (isalpha(*(arr + *index))) {                      //проверка на буквы
        printf("Incorrect input\n");
        exit(-1);
     }                                 
-    while (*(arr + *index) >= '0' && *(arr + *index) <= '9') {    //символы в число
+    while (isdigit(*(arr + *index))) {                      //символы в число
         val = 10 * val + (*(arr + *index) - '0');
         ++*index;              
     }
-    if (*(arr + *index) == ',') {                                 //проверка на запятую
+    if (*(arr + *index) == ',') {                           //проверка на запятую
         printf("Introduced \",\" but expected \".\"\n");
         exit(-1);
     }                               
     if (*(arr + *index) != '.') {                           //проверка на десятичную точку
         return val;
     }              
-    while (*(arr + *index) >= '0' && *(arr + *index) <= '9') {     //десятичная часть
+    while (isdigit(*(arr + (++*index)))) {                  //десятичная часть
         factor *= 0.1;
         val = val + (*(arr + *index) - '0') * factor;
     }
     return val;
-}    
+}
