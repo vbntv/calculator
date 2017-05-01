@@ -53,4 +53,45 @@ CTEST(plusminus, test6)
     ASSERT_EQUAL(-10, result);
 }
 
+CTEST(muldiv, test7) 
+{   
+    char *str = "2*2";
+    unsigned short index = 0;
+    float result = muldiv(str, &index);
+    ASSERT_EQUAL(4, result);
+}
+
+CTEST(muldiv, test8) 
+{   
+    char *str = "-2*2";
+    unsigned short index = 0;
+    float result = muldiv(str, &index);
+    ASSERT_EQUAL(-4, result);
+}
+
+CTEST(muldiv, test9) 
+{   
+    char *str = "0.5*0.5";
+    unsigned short index = 0;
+    float result = muldiv(str, &index);
+    ASSERT_EQUAL(0.25, result);
+}
+
+CTEST(muldiv, test10) 
+{   
+    char *str = "1/0";
+    unsigned short index = 0;
+    float result = muldiv(str, &index);
+    ASSERT_EQUAL(-1, result);
+}
+
+CTEST(muldiv, test11) 
+{   
+    char *str = "0.5*0";
+    unsigned short index = 0;
+    float result = muldiv(str, &index);
+    ASSERT_EQUAL(0, result);
+}
+
+
 
