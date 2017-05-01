@@ -29,4 +29,15 @@ clean:
 	@rm -f $(BUILD_DIR)/*.o $(TARGET)
 	@rm -f $(BUILD_DIR_TEST)/*.o $(TARGET_TEST)
 
+$(TARGET_TEST): $(OBJ_TEST) $(OBJ)
+	@$(DIRGUARD)
+	@$(CC) $(CFLAG) $@ $(OBJ_TEST) $(BUILD_DIR)/calc.o -lm
+
+$(OBJ_TEST): $(BUILD_DIR_TEST)/%.o : $(SRC_DIR_TEST)/%.c
+	@$(DIRGUARD)
+	@$(CC) -I $(SRC_DIR) -I thirdparty -c $< $(CFLAG) $@
+
+.PHONY: test
+test: $(TARGET_TEST)	
+
 
