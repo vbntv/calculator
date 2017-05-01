@@ -37,5 +37,20 @@ CTEST(plusminus, test4)
     ASSERT_EQUAL(2.5, result);
 }
 
+CTEST(plusminus, test5) 
+{   
+    char *str = "-5+10";
+    unsigned short index = 0;
+    float result = plusminus(str, &index);
+    ASSERT_EQUAL(5, result);
+}
+
+CTEST(plusminus, test6) 
+{   
+    char *str = "-5-5";
+    unsigned short index = 0;
+    float result = plusminus(str, &index);
+    ASSERT_EQUAL(-10, result);
+}
 
 
