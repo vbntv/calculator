@@ -125,5 +125,21 @@ CTEST(power, test15)
     ASSERT_DBL_NEAR(32, result);
 }
 
+CTEST(number, test25) 
+{   
+    char *str = "abc";
+    unsigned short index = 0;
+    float result = number(str, &index);
+    ASSERT_EQUAL(-1, result);
+}
+
+CTEST(number, test26) 
+{   
+    char *str = "2,5+0";
+    unsigned short index = 0;
+    float result = number(str, &index);
+    ASSERT_EQUAL(-1, result);
+}
+
 
 
