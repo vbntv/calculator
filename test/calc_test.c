@@ -93,5 +93,37 @@ CTEST(muldiv, test11)
     ASSERT_EQUAL(0, result);
 }
 
+CTEST(power, test12) 
+{   
+    char *str = "2^3";
+    unsigned short index = 0;
+    float result = power(str, &index);
+    ASSERT_EQUAL(8, result);
+}
+ 
+CTEST(power, test13) 
+{   
+    char *str = "2^-1/2";
+    unsigned short index = 0;
+    float result = power(str, &index);
+    ASSERT_EQUAL(0.25, result);
+}
+
+CTEST(power, test14) 
+{   
+    char *str = "10^-5";
+    unsigned short index = 0;
+    float result = power(str, &index);
+    ASSERT_EQUAL(0.00001, result);
+}
+
+CTEST(power, test15) 
+{   
+    char *str = "0.5^-5";
+    unsigned short index = 0;
+    double result = power(str, &index);
+    ASSERT_DBL_NEAR(32, result);
+}
+
 
 
