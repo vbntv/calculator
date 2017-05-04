@@ -125,49 +125,49 @@ CTEST(power, test15)
     ASSERT_EQUAL(32, result);
 }
 
-CTEST(precedence rule, test16)  
+CTEST(procedure, test16)  
 {   
     char *str = "2+2*2";
     double result = value(str);
     ASSERT_EQUAL(6, result);
 }
 
-CTEST(precedence rule, test17)
+CTEST(procedure, test17)
 {   
     char *str = "1+2*3";
     double result = value(str);
     ASSERT_EQUAL(7, result);
 }
 
-CTEST(precedence rule, test18)
+CTEST(procedure, test18)
 {   
     char *str = "1+2^3";
     double result = value(str);
     ASSERT_EQUAL(9, result);
 }
 
-CTEST(precedence rule, test19)
+CTEST(procedure, test19)
 {   
     char *str = "10*2^3+5";
     double result = value(str);
     ASSERT_EQUAL(85, result);
 }
 
-CTEST(precedence rule, test20)
+CTEST(procedure, test20)
 {   
     char *str = "10*2^3*5";
     double result = value(str);
     ASSERT_EQUAL(400, result);
 }
 
-CTEST(precedence rule, test21)
+CTEST(procedure, test21)
 {   
     char *str = "8^4/2";
     double result = value(str);
     ASSERT_EQUAL(2048, result);
 }
 
-CTEST(precedence rule, test22)
+CTEST(procedure, test22)
 {   
     char *str = "8^4/2/0";
     double result = value(str);
@@ -188,7 +188,21 @@ CTEST(priority, test24)
     ASSERT_EQUAL(0, result);
 }
 
-CTEST(number, test25) 
+CTEST(priority, test25)
+{   
+    char *str = "(32-(44+(6+6)))";
+    double result = value(str);
+    ASSERT_EQUAL(0, result);
+}
+
+CTEST(priority, test26)
+{   
+    char *str = "(4+10*(20-15))*0";
+    double result = value(str);
+    ASSERT_EQUAL(0, result);
+}
+
+CTEST(number, test29) 
 {   
     char *str = "abc";
     unsigned short index = 0;
@@ -196,7 +210,7 @@ CTEST(number, test25)
     ASSERT_EQUAL(-1, result);
 }
 
-CTEST(number, test26) 
+CTEST(number, test28) 
 {   
     char *str = "2,5+0";
     unsigned short index = 0;
