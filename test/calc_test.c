@@ -202,7 +202,14 @@ CTEST(priority, test26)
     ASSERT_EQUAL(0, result);
 }
 
-CTEST(number, test29) 
+CTEST(priority, test27)
+{   
+    char *str = "300-((20*60+60)*0)+300)";
+    double result = value(str);
+    ASSERT_EQUAL(0, result);
+}
+
+CTEST(number, test28) 
 {   
     char *str = "abc";
     unsigned short index = 0;
@@ -210,7 +217,7 @@ CTEST(number, test29)
     ASSERT_EQUAL(-1, result);
 }
 
-CTEST(number, test28) 
+CTEST(number, test29) 
 {   
     char *str = "2,5+0";
     unsigned short index = 0;
