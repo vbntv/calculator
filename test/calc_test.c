@@ -16,7 +16,7 @@ CTEST(plusminus, test1)
 
 CTEST(plusminus, test2) 
 {   
-    char *str = "2,5 + 2,5";  //выдаст ошибку т.к должна быть точка а не запятая
+    char *str = "2,5 + 2,5";
     unsigned short index = 0;
     float result = plusminus(str, &index);
     ASSERT_EQUAL(-1, result);
@@ -122,70 +122,70 @@ CTEST(power, test15)
     char *str = "0.5^-5";
     unsigned short index = 0;
     double result = power(str, &index);
-    ASSERT_DBL_NEAR(32, result);
+    ASSERT_EQUAL(32, result);
 }
 
-CTEST(priority, test16)  //тестирование порядка действий
+CTEST(precedence rule, test16)  
 {   
     char *str = "2+2*2";
     double result = value(str);
-    ASSERT_DBL_NEAR(6, result);
+    ASSERT_EQUAL(6, result);
 }
 
-CTEST(priority, test17)
+CTEST(precedence rule, test17)
 {   
     char *str = "1+2*3";
     double result = value(str);
-    ASSERT_DBL_NEAR(7, result);
+    ASSERT_EQUAL(7, result);
 }
 
-CTEST(priority, test18)
+CTEST(precedence rule, test18)
 {   
     char *str = "1+2^3";
     double result = value(str);
-    ASSERT_DBL_NEAR(9, result);
+    ASSERT_EQUAL(9, result);
 }
 
-CTEST(priority, test19)
+CTEST(precedence rule, test19)
 {   
     char *str = "10*2^3+5";
     double result = value(str);
-    ASSERT_DBL_NEAR(85, result);
+    ASSERT_EQUAL(85, result);
 }
 
-CTEST(priority, test20)
+CTEST(precedence rule, test20)
 {   
     char *str = "10*2^3*5";
     double result = value(str);
-    ASSERT_DBL_NEAR(400, result);
+    ASSERT_EQUAL(400, result);
 }
 
-CTEST(priority, test21)
+CTEST(precedence rule, test21)
 {   
     char *str = "8^4/2";
     double result = value(str);
-    ASSERT_DBL_NEAR(2048, result);
+    ASSERT_EQUAL(2048, result);
 }
 
-CTEST(priority, test22)
+CTEST(precedence rule, test22)
 {   
     char *str = "8^4/2/0";
     double result = value(str);
-    ASSERT_DBL_NEAR(-1, result);
+    ASSERT_EQUAL(-1, result);
 }
 
 CTEST(priority, test23)
 {   
     char *str = "(2+2)*2";
     double result = value(str);
-    ASSERT_DBL_NEAR(8, result);
+    ASSERT_EQUAL(8, result);
 }
 
 CTEST(priority, test24)
 {   
     char *str = "(2+2+3*6-8*9)*(5-5)";
     double result = value(str);
-    ASSERT_DBL_NEAR(0, result);
+    ASSERT_EQUAL(0, result);
 }
 
 CTEST(number, test25) 
