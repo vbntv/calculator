@@ -9,8 +9,8 @@ int main(int argc, char *argv[])
         printf("Expected ./calc \"expression\"\n");
         exit(-1);
     }
-    deletespace(argv[1]);
-    checkbrackets(argv[1]);
+    delete_space(argv[1]);
+    check_brackets(argv[1]);
     printf("%g\n", value(argv[1]));
     return 0;
 }

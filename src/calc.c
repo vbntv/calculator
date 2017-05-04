@@ -3,28 +3,31 @@
 #include <stdlib.h>                                 
 #include "calc.h"
  
-void deletespace(char *arr)
+void delete_space(char *str)
 {
     unsigned short i = 0, j = 0;
     
-    while ((*(arr+i) = *(arr + j++)) != '\0') 
-        if (*(arr+i) != ' ')
-            i++;                   
-    return;
+    while ((*(str+i) = *(str + j++)) != '\0') {
+        if (*(str+i) != ' ') {
+            i++;
+        }
+    }
 }
 
-void checkbrackets(char *arr)
+void check_brackets(char *str)
 {
     unsigned short open = 0, close = 0;
     
-    while (*arr) {
-        if (*arr == '(') {
+    while (*str) {
+        if (*str == '(') {
             open++;
-        } else if(*arr == ')') {
+        } else if (*str == ')') {
             close++;
         }
-        ++arr;
+   
+        ++str;
     }
+  
     if (open > close || close > open) {
         printf("Brackets unbalanced!\n");
         exit(-1);
@@ -32,128 +35,130 @@ void checkbrackets(char *arr)
         
 }
 
-float value(char *arr)
+float value(char *str)
 {
     unsigned short index = 0;
- 
-    return plusminus(arr, &index);
-}
- 
-float plusminus(char *arr, unsigned short *index)
-{                                 
-    float val = muldiv(arr, index);
-        
-    while (*(arr + *index) == '+' || *(arr + *index) == '-') {                                          
-        switch (*(arr + *index)) {       
-            case '\0':                                                  //проверка на конец строки (потом можно убрать это для тестов)
-                return val;
-            case '+':
-                ++*index;          
-                val += muldiv(arr, index);
-                break;
-            case '-':
-                ++*index;           
-                val -= muldiv(arr, index);
-                break;                                                    
-        }
-    }
-    return val;
-}
- 
-float muldiv(char *arr, unsigned short *index)                        //multiplication - '/' division - '*'
-{    
-    float div;      
-    float val = power(arr, index);   
-     
-    while (*(arr + *index) == '*' || *(arr + *index) == '/') {                                  
-        switch (*(arr + *index)) {      
-            case '\0':                  
-                return val;
-            case '*':
-                ++*index;
-                val *= power(arr, index);
-                break;
-            case '/':
-                ++*index;
-                div = power(arr, index);
-                if (div != 0) {                                     //проверка на делениние на 0
-                    val /= div;
-                }
-                else {                                            
-                    printf("Division by zero is not defined\n");          
-                    exit(-1);
-                }
-                break;
-       }
-   }
-    return val;
-} 
-                 
-float power(char *arr, unsigned short *index)                
-{                  
-    float val = priority(arr, index);
-        
-    while (*(arr + *index) == '^') {   
-        switch (*(arr + *index)) {
-            case '\0':                  
-                return val;
-            case '^':
-                ++*index;                  
-                val = pow(val, priority(arr, index));                   //возведение в степень
-                break;        
-        }
-    }
-    return val;      
-}
 
-float priority(char *arr, unsigned short *index)        
+    return plus_minus(str, &index);
+}
+ 
+float plus_minus(char *str, unsigned short *index)
 {
-    float val;    
-    short flag = 1; 
-   
-    while (*(arr + *index) == '-') {                    //проверка на отрицательный префикс (-1)    
-        flag *= -1;
-        ++*index; 
-    } 
-    
-    if (*(arr + *index) == '(') {                       //ищет открывающую скобку
-        ++*index;
-        val = plusminus(arr, index);
-        ++*index;                 
+    float value = muldiv(str, index);
+
+    while (*(str + *index) == '+' || *(str + *index) == '-') {                            
+        switch (*(str + *index)) {
+        case '+':
+            ++*index;
+            value += muldiv(str, index);
+            break;
+
+        case '-':
+            ++*index;
+            value -= muldiv(str, index);
+            break;
+        }
     }
-    else
-        val = number(arr, index);    
-        
-    return val * flag;
+    
+    return value;
 }
  
-float number(char *arr, unsigned short *index)                     //обработка строки
-{     
-    float val = 0; 
+float muldiv(char *str, unsigned short *index)      
+{
+    float divider;
+    float value = power(str, index);
+
+    while (*(str + *index) == '*' || *(str + *index) == '/') {                       
+        switch (*(str + *index)) {
+        case '*':
+            ++*index;
+            value *= power(str, index);
+            break;
+
+        case '/':
+            ++*index;
+            divider = power(str, index);
+            
+            if (divider != 0) {                      
+                value /= divider;
+            } else {                        
+                printf("Division by zero is not defined\n");         
+                exit(-1);
+            }
+            
+            break;
+       }
+    }
+    
+    return value;
+}
+              
+float power(char *str, unsigned short *index)         
+{
+    float value = brackets_priority(str, index);
+
+    while (*(str + *index) == '^') {
+        switch (*(str + *index)) {
+        case '^':
+            ++*index;
+            value = pow(value, brackets_priority(str, index));         
+            break;
+        }
+    }
+    
+    return value;
+}
+
+float brackets_priority(char *str, unsigned short *index)    
+{
+    float value;
+
+    if (*(str + *index) == '(') {                   
+        ++*index;
+        value = plus_minus(str, index);
+        ++*index;
+    } else {
+        value = number(str, index);  
+    }
+    
+    return value;
+}
+ 
+float number(char *str, unsigned short *index)                     
+{
+    float value = 0;
     float factor = 1;
+    short flag = 1;
 
+    while (*(str + *index) == '-') {                    
+        flag *= -1;
+        ++*index;
+    }
 
-    while (*(arr + *index) >= 'a' && *(arr + *index) <= 'z') {                             //проверка на буквы
+    while (*(str + *index) >= 'a' && *(str + *index) <= 'z') {                      
        printf("Incorrect input\n");
        exit(-1);
-    }                                 
-    while (*(arr + *index) >= '0' && *(arr + *index) <= '9') {    //символы в число
-        val = 10 * val + (*(arr + *index) - '0');
-        ++*index;              
     }
-    if (*(arr + *index) == ',') {                                 //проверка на запятую
+    
+    while (*(str + *index) >= '0' && *(str + *index) <= '9') {
+        value = 10 * value + (*(str + *index) - '0');
+        ++*index;
+    }
+    
+    if (*(str + *index) == ',') {
         printf("Introduced \",\" but expected \".\"\n");
         exit(-1);
-    }                               
-    if ( *(arr + *index) == '.') {                           //проверка на десятичную точку
+    }
+    
+    if ( *(str + *index) == '.') {
         ++*index;
-                  
-        while (*(arr + *index) >= '0' && *(arr + *index) <= '9') {     //десятичная часть
+                         
+        while (*(str + *index) >= '0' && *(str + *index) <= '9') { 
             factor *= 0.1;
-            val = val + (*(arr + *index) - '0') * factor;
+            value = value + (*(str + *index) - '0') * factor;
             ++*index;
-            
         }
     }
-    return val;
+    
+    return value * flag;
 }
