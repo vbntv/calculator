@@ -15,10 +15,10 @@ $(TARGET): $(OBJ)
 
 $(OBJ): $(BUILD_DIR)/%.o : $(SRC_DIR)/%.c
 	@$(DIRGUARD)
-	@$(CC) -c $(CFLAG) $@ $< 
+	@$(CC) -c $(CFLAG) $@ $<
 
 .PHONY: clean
 
-clean: 
+clean:
 	@rm -f $(BUILD_DIR)/*.o $(TARGET)
 
