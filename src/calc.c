@@ -28,7 +28,7 @@ void check_brackets(char *str)
         ++str;
     }
   
-    if (open > close || close > open) {
+    if (open != close) {
         printf("Brackets unbalanced!\n");
         exit(-1);
     }
